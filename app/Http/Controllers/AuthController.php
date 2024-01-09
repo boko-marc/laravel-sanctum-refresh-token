@@ -14,7 +14,7 @@ class AuthController extends Controller
     {
         $data = ['name' => "Marc BOKO", "password" => "123456789", "email" => "marcboko.uriel@gmail.com"];
         $user = User::create($data);
-        $accessToken = $user->createToken('access_token', [TokenAbility::ACCESS_API->value], Carbon::now()->addMinutes(config('sanctum.expiration')));
+        $accessToken = $user->createToken('access_token', [TokenAbility::ACCESS_API->value], Carbon::now()->addMinutes(config('sanctum.ac_expiration')));
         $refreshToken = $user->createToken('refresh_token', [TokenAbility::ISSUE_ACCESS_TOKEN->value], Carbon::now()->addMinutes(config('sanctum.rt_expiration')));
 
         return [
@@ -27,7 +27,7 @@ class AuthController extends Controller
     }
     public function refreshToken(Request $request)
     {
-        $accessToken = $request->user()->createToken('access_token', [TokenAbility::ACCESS_API->value], Carbon::now()->addMinutes(config('sanctum.expiration')));
+        $accessToken = $request->user()->createToken('access_token', [TokenAbility::ACCESS_API->value], Carbon::now()->addMinutes(config('sanctum.ac_expiration')));
         return response(['message' => "Token généré", 'token' => $accessToken->plainTextToken]);
     }
 }
